@@ -54,5 +54,10 @@ def weather():
 
 	return render_template('index.html', data=data) 
 
+@app.route('/aboutus')
+def aboutus():
+    return render_template('about.html')
+
+
 if __name__ == '__main__': 
 	app.run(debug = True) 

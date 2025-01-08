@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include 'bootstrap.html' %}
+    <title>About</title>
+  </head>
+
+<body>
+
+    {% include 'navbar.html' %}
+
+    <div class="container mt-3">
+        {% include 'banner.html' %}
+    </div>
+
+    <div class="container mt-2">
+      <h3 class="text-center">About Us</h3>
+
+      <p class="text-center">
+        Welcome to WeatherToday, your reliable source for up-to-date and
+        accurate weather information. <br />
+        Whether you're planning a trip or simply curious about the forecast, we
+        are here to provide you with the latest weather data from around the
+        world.
+      </p>
+
+      <h3 class="text-center">Who We Are</h3>
+      <p class="text-center">
+        At WeatherToday, we are passionate about making weather information
+        accessible to everyone. <br />
+        Our goal is to deliver real-time weather updates, news, forecasts, and
+        other essential data in a user-friendly format. <br />
+        With a simple and intuitive interface, you can easily find the
+        information you need, from temperature and humidity to wind speed and
+        visibility.
+      </p>
+
+      <h3 class="text-center">Our Technology</h3>
+      <p class="text-center">
+        We use the power of OpenWeather API to provide accurate and reliable
+        weather data. OpenWeather collects data from multiple sources, including
+        weather stations, satellites, and meteorological models, ensuring that
+        we offer the most up-to-date and accurate information.
+      </p>
+
+    </div>
+
+{% include 'contactus.html' %}
+</body>
+</html>
