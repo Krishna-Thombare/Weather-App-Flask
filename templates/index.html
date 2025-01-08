@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'bootstrap.html' %}
+    <title>Weather App</title>
+</head>
+
+<body>
+
+    {% include 'navbar.html' %}
+    
+    <div class="container mt-3">
+        {% include 'banner.html' %}
+    </div>
+
+    <div class="container mt-5">
+        <!-- Search Form -->
+        <form method="POST" style="max-width: 400px; margin: 0 auto;">
+            <div style="text-align: center;">
+                <input type="text" name="city" 
+                    placeholder="Enter city name" 
+                    class="form-control" required
+                    style="width: 300px; padding: 8px; border: 1px solid #858585; border-radius: 4px; margin: 0 auto;">
+                <br>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+
+        {% if data %}
+            <!-- Check if there's an error message -->
+            {% if data.error %}
+                <div class="alert alert-danger mt-3">
+                    {{ data.error }}
+                </div>
+            {% else %}
+                <!-- Display Weather Info -->
+                <div class="weather-info mt-3 text-center">
+                    <h2>Weather in {{ data['city_name'] }}, {{ data['country_name'] }}</h2>
+
+                    {% if "Unknown Country" in data['country_name'] %}
+                        <p class="alert alert-warning">We couldn't recognize the country code, showing the code instead: {{ data['country_name'] }}</p>
+                    {% endif %}
+
+                    <p><strong>Condition:</strong> {{ data['description'] }}</p>
+                    <img src="{{ data['icon'] }}" alt="Weather icon">
+                    <p><strong>Temperature:</strong> {{ data['temp'] }}</p>
+                    <p><strong>Humidity:</strong> {{ data['humidity'] }}</p>
+                    <p><strong>Clouds:</strong> {{ data['clouds'] }}</p>
+                    <p><strong>Wind Speed:</strong> {{ data['wind'] }}</p>
+                    <p><strong>Visibility:</strong> {{ data['visibility'] }}</p>
+                </div>
+            {% endif %}
+        {% endif %}
+
+    </div>
+
+</body>
+</html>

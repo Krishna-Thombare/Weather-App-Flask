@@ -1,0 +1,31 @@
+<style>
+        
+    body {
+        overflow-x: hidden;
+    }
+    
+    .banner-container {
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        width: 100vw;
+        background-color: black;
+        margin-top: -20px; /* To remove gap between heading and logo */
+    }
+
+    #banner {
+        display: block;
+        height: 200px;
+        width: 100%; /* Changed from 300% */
+        object-fit: cover;
+        margin: 0 auto;
+        max-width: 100vw; /* Changed to viewport width */
+    }
+</style>
+
+<div class="banner-container">
+    <img class="img-fluid mt-3" id="banner" src="/static/banner3.jpeg" alt="banner">
+</div>
+
