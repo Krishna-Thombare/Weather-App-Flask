@@ -54,6 +54,38 @@
 
         {% include 'widget.html' %}
 
+        {% if current_user.is_authenticated %}
+            <div class="saved-cities mt-4">
+                <h3>Your Saved Cities</h3>
+                    {% if saved_cities %}
+                        <div class="row">
+                            {% for city in saved_cities %}
+                                <div class="col-md-4 mb-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ city.city_name }}</h5>
+                                            <form method="POST" action="{{ url_for('weather') }}">
+                                                <input type="hidden" name="city" value="{{ city.city_name }}">
+                                                <button type="submit" class="btn btn-primary btn-sm">View Weather</button>
+                                            </form>
+                                            <a href="{{ url_for('remove_city', city_name=city.city_name) }}" 
+                                            class="btn btn-danger btn-sm mt-2">Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p>You haven't saved any cities yet.</p>
+                    {% endif %}
+                    
+                    {% if data and not data.error %}
+                        <a href="{{ url_for('save_city', city_name=data.city_name) }}" 
+                        class="btn btn-success">Save This City</a>
+            {% endif %}
+    </div>
+{% endif %}
+
     </div>
 
 {% include 'contactus.html' %}
