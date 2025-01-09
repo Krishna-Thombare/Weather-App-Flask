@@ -15,16 +15,29 @@
 
     <div class="container mt-4">
         <!-- Search Form -->
-        <form method="POST" style="max-width: 400px; margin: 0 auto;">
-            <div style="text-align: center;">
-                <input type="text" name="city" 
-                    placeholder="Enter city name" 
-                    class="form-control" required
-                    style="width: 300px; padding: 8px; border: 1px solid #858585; border-radius: 4px; margin: 0 auto;">
-                <br>
-                <button type="submit" class="btn btn-primary">Search</button>
+        <div style="max-width: 400px; margin: 0 auto;">
+            <div class="position-relative">  
+                <div class="d-flex justify-content-center">  
+                    <input type="text" name="city" 
+                        form="searchForm"
+                        placeholder="Enter city name" 
+                        class="form-control"
+                        required
+                        style="width: 300px; padding: 8px; border: 1px solid #858585; border-radius: 4px;">
+                </div>
+                {% if current_user.is_authenticated and data and not data.error %}
+                    <a href="{{ url_for('save_city', city_name=data.city_name) }}" 
+                        class="btn btn-danger position-absolute mt-0"
+                        style="top: 0; right: -47px;">Add City</a>  
+                {% endif %}
+                <div class="text-center mt-3">  
+                    <form id="searchForm" method="POST" class="mb-0">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                </div>
             </div>
-        </form>
+        </div>
+    </div>
 
         {% if data %}
             <!-- Check if there's an error message -->
@@ -33,61 +46,112 @@
                     {{ data.error }}
                 </div>
             {% else %}
+
                 <!-- Display Weather Info -->
-                <div class="weather-info mt-3 text-center">
-                    <h2>Weather in {{ data['city_name'] }}, {{ data['country_name'] }}</h2>
-
-                    {% if "Unknown Country" in data['country_name'] %}
-                        <p class="alert alert-warning">We couldn't recognize the country code, showing the code instead: {{ data['country_name'] }}</p>
-                    {% endif %}
-
-                    <p><strong>Condition:</strong> {{ data['description'] }}</p>
-                    <img src="{{ data['icon'] }}" alt="Weather icon">
-                    <p><strong>Temperature:</strong> {{ data['temp'] }}</p>
-                    <p><strong>Humidity:</strong> {{ data['humidity'] }}</p>
-                    <p><strong>Clouds:</strong> {{ data['clouds'] }}</p>
-                    <p><strong>Wind Speed:</strong> {{ data['wind'] }}</p>
-                    <p><strong>Visibility:</strong> {{ data['visibility'] }}</p>
+    <div class="container mt-4">
+        {% if data %}
+            {% if data.error %}
+                <div class="alert alert-danger mt-3">
+                    {{ data.error }}
                 </div>
-            {% endif %}
-        {% endif %}
+            {% else %}
 
-        {% include 'widget.html' %}
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <div class="weather-info text-center">
+                                <h2 class="mb-4">{{ data['city_name'] }}, {{ data['country_name'] }}</h2>
+                                
+                                {% if "Unknown Country" in data['country_name'] %}
+                                    <p class="alert alert-warning">We couldn't recognize the country code, showing the code instead: {{ data['country_name'] }}</p>
+                                {% endif %}
 
-        {% if current_user.is_authenticated %}
-            <div class="saved-cities mt-4">
-                <h3>Your Saved Cities</h3>
-                    {% if saved_cities %}
-                        <div class="row">
-                            {% for city in saved_cities %}
-                                <div class="col-md-4 mb-3">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ city.city_name }}</h5>
-                                            <form method="POST" action="{{ url_for('weather') }}">
-                                                <input type="hidden" name="city" value="{{ city.city_name }}">
-                                                <button type="submit" class="btn btn-primary btn-sm">View Weather</button>
-                                            </form>
-                                            <a href="{{ url_for('remove_city', city_name=city.city_name) }}" 
-                                            class="btn btn-danger btn-sm mt-2">Remove</a>
+                                <div class="row align-items-center mb-4">
+                                    <div class="col">
+                                        <img src="{{ data['icon'] }}" alt="Weather icon" class="img-fluid">
+                                        <h3 class="mb-0">{{ data['temp'] }}</h3>
+                                        <p class="text-muted">{{ data['description'] }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <div class="p-3 border rounded bg-light">
+                                            <h5>Humidity</h5>
+                                            <p class="mb-0">{{ data['humidity'] }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 border rounded bg-light">
+                                            <h5>Clouds</h5>
+                                            <p class="mb-0">{{ data['clouds'] }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 border rounded bg-light">
+                                            <h5>Wind Speed</h5>
+                                            <p class="mb-0">{{ data['wind'] }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 border rounded bg-light">
+                                            <h5>Visibility</h5>
+                                            <p class="mb-0">{{ data['visibility'] }}</p>
                                         </div>
                                     </div>
                                 </div>
-                            {% endfor %}
+                            </div>
                         </div>
-                    {% else %}
-                        <p>You haven't saved any cities yet.</p>
-                    {% endif %}
-                    
-                    {% if data and not data.error %}
-                        <a href="{{ url_for('save_city', city_name=data.city_name) }}" 
-                        class="btn btn-success">Save This City</a>
-            {% endif %}
-    </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
 {% endif %}
+{% endif %}
+<hr>
+
+        <!-- {% include 'widget.html' %} -->
+
+        {% if current_user.is_authenticated %}
+    <div class="saved-cities mt-3">
+        <div class="container">
+            <h3 class="text-center mb-4">Your Saved Cities</h3>
+            {% if saved_cities %}
+                <div class="row justify-content-center">
+                    {% for city in saved_cities %}
+                        <div class="col-md-4 mb-4">
+                            <!-- Saved City Container -->
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="card-title mb-0">{{ city.city_name }}</h5>
+                                        <form method="POST" action="{{ url_for('weather') }}">
+                                            <input type="hidden" name="city" value="{{ city.city_name }}">
+                                            <button type="submit" class="btn btn-primary btn-sm">View Weather</button>
+                                        </form>
+                                        <a href="{{ url_for('remove_city', city_name=city.city_name) }}" 
+                                           class="btn btn-danger btn-sm">Remove</a>
+                                    </div>
+                                    <div id="weatherwidget-{{ loop.index }}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-center">You haven't saved any cities yet.</p>
+            {% endif %}
+        </div>
+    </div>
 
     </div>
+    {% endif %}
 
 {% include 'contactus.html' %}
+{% include 'footer.html' %}
+
 </body>
 </html>

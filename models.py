@@ -21,7 +21,7 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
 class SavedCity(db.Model):
-    # Model for storing users' saved cities
+    # Model for storing users saved cities
     id = db.Column(db.Integer, primary_key=True)
     city_name = db.Column(db.String(80), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
