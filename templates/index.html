@@ -3,10 +3,41 @@
 <head>
     {% include 'bootstrap.html' %}
     <title> WeatherToday </title>
+    <style>
+        .weather-gradient {
+            background: linear-gradient(135deg, #e6f2ff 0%, #b3d9ff 100%);
+        }
+        
+        .flash-message {
+            width: 80%;
+            max-width: 600px;
+            margin: 1rem auto;
+            padding: 0.75rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .weather-container {
+            display: grid;
+            grid-template-columns: 300px minmax(auto, 800px) 300px;
+            gap: 2rem;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .saved-city-card {
+            margin-bottom: 1rem;
+            transition: transform 0.2s;
+        }
+        
+        .widget-container {
+            height: 100%;
+            min-height: 400px;
+        }
+    </style>
 </head>
 
 <body>
-
     {% include 'navbar.html' %}
     
     <div class="container mt-3">
@@ -37,121 +68,113 @@
                 </div>
             </div>
         </div>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash-message alert alert-info text-center">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
     </div>
 
-        {% if data %}
-            <!-- Check if there's an error message -->
-            {% if data.error %}
-                <div class="alert alert-danger mt-3">
-                    {{ data.error }}
+    {% if data %}
+        {% if data.error %}
+            <div class="alert alert-danger mt-3 text-center" style="width: 80%; max-width: 600px; margin: 1rem auto;">
+                {{ data.error }}
+            </div>
+        {% else %}
+            <!-- Three-column layout -->
+            <div class="weather-container">
+                <!-- Left Column: Weather Widget -->
+                <div class="widget-container">
+                    <h4 class="text-center mb-3">Your City</h4>
+                    {% include 'widget.html' %}
                 </div>
-            {% else %}
 
-                <!-- Display Weather Info -->
-    <div class="container mt-4">
-        {% if data %}
-            {% if data.error %}
-                <div class="alert alert-danger mt-3">
-                    {{ data.error }}
-                </div>
-            {% else %}
+                <!-- Center Column: Weather Information -->
+                <div class="card shadow-sm weather-gradient">
+                    <div class="card-body">
+                        <div class="weather-info text-center">
+                            <h2 class="mb-4">{{ data['city_name'] }}, {{ data['country_name'] }}</h2>
+                            
+                            {% if "Unknown Country" in data['country_name'] %}
+                                <p class="alert alert-warning">We couldn't recognize the country code, showing the code instead: {{ data['country_name'] }}</p>
+                            {% endif %}
 
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <div class="weather-info text-center">
-                                <h2 class="mb-4">{{ data['city_name'] }}, {{ data['country_name'] }}</h2>
-                                
-                                {% if "Unknown Country" in data['country_name'] %}
-                                    <p class="alert alert-warning">We couldn't recognize the country code, showing the code instead: {{ data['country_name'] }}</p>
-                                {% endif %}
+                            <div class="row align-items-center mb-4">
+                                <div class="col">
+                                    <img src="{{ data['icon'] }}" alt="Weather icon" class="img-fluid">
+                                    <h3 class="mb-0">{{ data['temp'] }}</h3>
+                                    <p class="text-muted">{{ data['description'] }}</p>
+                                </div>
+                            </div>
 
-                                <div class="row align-items-center mb-4">
-                                    <div class="col">
-                                        <img src="{{ data['icon'] }}" alt="Weather icon" class="img-fluid">
-                                        <h3 class="mb-0">{{ data['temp'] }}</h3>
-                                        <p class="text-muted">{{ data['description'] }}</p>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="p-3 border rounded bg-light">
+                                        <h5>Humidity</h5>
+                                        <p class="mb-0">{{ data['humidity'] }}</p>
                                     </div>
                                 </div>
-
-                                <div class="row g-4">
-                                    <div class="col-md-6">
-                                        <div class="p-3 border rounded bg-light">
-                                            <h5>Humidity</h5>
-                                            <p class="mb-0">{{ data['humidity'] }}</p>
-                                        </div>
+                                <div class="col-md-6">
+                                    <div class="p-3 border rounded bg-light">
+                                        <h5>Clouds</h5>
+                                        <p class="mb-0">{{ data['clouds'] }}</p>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="p-3 border rounded bg-light">
-                                            <h5>Clouds</h5>
-                                            <p class="mb-0">{{ data['clouds'] }}</p>
-                                        </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="p-3 border rounded bg-light">
+                                        <h5>Wind Speed</h5>
+                                        <p class="mb-0">{{ data['wind'] }}</p>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="p-3 border rounded bg-light">
-                                            <h5>Wind Speed</h5>
-                                            <p class="mb-0">{{ data['wind'] }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="p-3 border rounded bg-light">
-                                            <h5>Visibility</h5>
-                                            <p class="mb-0">{{ data['visibility'] }}</p>
-                                        </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="p-3 border rounded bg-light">
+                                        <h5>Visibility</h5>
+                                        <p class="mb-0">{{ data['visibility'] }}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Right Column: Saved Cities -->
+                {% if current_user.is_authenticated %}
+                <div class="saved-cities">
+                    <h4 class="text-center mb-3">Saved Cities</h4>
+                    {% if saved_cities %}
+                        {% for city in saved_cities %}
+                            <div class="card shadow-sm saved-city-card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title mb-0">{{ city.city_name }}</h5>
+                                        <div class="btn-group">
+                                            <form method="POST" action="{{ url_for('weather') }}" class="me-2">
+                                                <input type="hidden" name="city" value="{{ city.city_name }}">
+                                                <button type="submit" class="btn btn-primary btn-sm">View</button>
+                                            </form>
+                                            <a href="{{ url_for('remove_city', city_name=city.city_name) }}" 
+                                               class="btn btn-danger btn-sm">Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-center">No saved cities yet.</p>
+                    {% endif %}
+                </div>
+                {% endif %}
             </div>
         {% endif %}
     {% endif %}
-</div>
-{% endif %}
-{% endif %}
-<hr>
 
-        <!-- {% include 'widget.html' %} -->
-
-        {% if current_user.is_authenticated %}
-    <div class="saved-cities mt-3">
-        <div class="container">
-            <h3 class="text-center mb-4">Your Saved Cities</h3>
-            {% if saved_cities %}
-                <div class="row justify-content-center">
-                    {% for city in saved_cities %}
-                        <div class="col-md-4 mb-4">
-                            <!-- Saved City Container -->
-                            <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h5 class="card-title mb-0">{{ city.city_name }}</h5>
-                                        <form method="POST" action="{{ url_for('weather') }}">
-                                            <input type="hidden" name="city" value="{{ city.city_name }}">
-                                            <button type="submit" class="btn btn-primary btn-sm">View Weather</button>
-                                        </form>
-                                        <a href="{{ url_for('remove_city', city_name=city.city_name) }}" 
-                                           class="btn btn-danger btn-sm">Remove</a>
-                                    </div>
-                                    <div id="weatherwidget-{{ loop.index }}"></div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <p class="text-center">You haven't saved any cities yet.</p>
-            {% endif %}
-        </div>
-    </div>
-
-    </div>
-    {% endif %}
-
-{% include 'contactus.html' %}
-{% include 'footer.html' %}
-
+    {% include 'contactus.html' %}
+    {% include 'footer.html' %}
 </body>
 </html>

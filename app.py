@@ -77,8 +77,8 @@ def aboutus():
 @app.route('/save_city/<city_name>')
 @login_required
 def save_city(city_name):
-    if SavedCity.query.filter_by(user_id=current_user.id).count() >= 3:
-        flash('You can only save up to 3 cities.')
+    if SavedCity.query.filter_by(user_id=current_user.id).count() >= 5:
+        flash('You can only add up to 5 cities.')
         return redirect(url_for('weather'))
     
     # Check for duplicates
