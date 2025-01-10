@@ -6,7 +6,10 @@
     <style>
         .weather-gradient {
             background: linear-gradient(135deg, #e6f2ff 0%, #b3d9ff 100%);
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
+
         .flash-message {
             width: 80%;
             max-width: 600px;
@@ -15,20 +18,46 @@
             border-radius: 4px;
             font-size: 0.9rem;
         }
+
         .weather-container {
             display: grid;
-            grid-template-columns: 300px minmax(auto, 800px) 300px;
+            grid-template-areas: 
+                "center"
+                "left"
+                "right";
             gap: 2rem;
             margin: 2rem auto;
             padding: 0 1rem;
         }
-        .saved-city-card {
-            margin-bottom: 1rem;
-            transition: transform 0.2s;
-        }
+
         .widget-container {
-            height: 100%;
-            min-height: 400px;
+            grid-area: left;
+            padding: 1rem;
+        }
+
+        .weather-info-box {
+            grid-area: center;
+            background: linear-gradient(135deg, #e6f2ff 0%, #b3d9ff 100%);
+            padding: 1rem;
+        }
+
+        .saved-cities {
+            grid-area: right;
+            padding: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .weather-container {
+                grid-template-areas: 
+                    "left center right";
+                grid-template-columns: 300px minmax(auto, 800px) 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .weather-container > div {
+                flex: 1 1 auto;
+            }
         }
     </style>
 </head>
@@ -83,16 +112,10 @@
                 {{ data.error }}
             </div>
         {% else %}
-            <!-- Three-column layout -->
+            <!-- Responsive Layout -->
             <div class="weather-container">
-                <!-- Left Column: Weather Widget -->
-                <div class="widget-container">
-                    <h4 class="text-center mb-3">Your City</h4>
-                    {% include 'widget.html' %}
-                </div>
-
                 <!-- Center Column: Weather Information -->
-                <div class="card shadow-sm weather-gradient">
+                <div class="weather-info-box">
                     <div class="card-body">
                         <div class="weather-info text-center">
                             <h2 class="mb-4">{{ data['city_name'] }}, {{ data['country_name'] }}</h2>
@@ -137,7 +160,13 @@
                             </div>
                         </div>
                     </div>
-                </div>                
+                </div>  
+
+                <!-- Left Column: Weather Widget -->
+                <div class="widget-container">
+                    <h4 class="text-center mb-3">Your City</h4>
+                    {% include 'widget.html' %}
+                </div>
 
                 <!-- Right Column: Saved Cities -->
                 <div class="saved-cities">
