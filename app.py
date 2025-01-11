@@ -81,7 +81,7 @@ def news():
     date_from = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
     
     try:
-        # First try to get weather-related news for the city
+        # Get weather-related news for the city
         weather_url = f'https://newsapi.org/v2/everything?q=weather {city}&from={date_from}&sortBy=publishedAt&language=en&apiKey={api_key}'
         response = requests.get(weather_url)
         news_data = response.json()
@@ -93,7 +93,7 @@ def news():
             news_data = response.json()
         
         if news_data.get('status') == 'ok':
-            articles = news_data.get('articles', [])[:6]  # Limit to 5 articles
+            articles = news_data.get('articles', [])[:6]  # Limit to 6 articles
             
             # Process the dates
             for article in articles:
