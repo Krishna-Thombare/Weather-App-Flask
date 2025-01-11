@@ -2,9 +2,11 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from dotenv import load_dotenv
 from config import Config
+from datetime import datetime, timedelta
 import os
 import json
 import urllib.request
+import requests
 from CountryNames import get_countryName
 from models import db, User, SavedCity
 
@@ -69,6 +71,43 @@ def weather():
         data = {"error": "Enter valid city name!"}
 
     return render_template('index.html', data=data, api_key=api_key, saved_cities=saved_cities)
+
+@app.route('/news')
+def news():
+    api_key = os.getenv('NEWS_API')
+    city = request.args.get('city', '')
+    
+    # Calculate date for the last 24 hours
+    date_from = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
+    
+    try:
+        # First try to get weather-related news for the city
+        weather_url = f'https://newsapi.org/v2/everything?q=weather {city}&from={date_from}&sortBy=publishedAt&language=en&apiKey={api_key}'
+        response = requests.get(weather_url)
+        news_data = response.json()
+        
+        # If no weather-specific news, try general news for the city
+        if news_data.get('totalResults', 0) == 0 and city:
+            general_url = f'https://newsapi.org/v2/everything?q={city}&from={date_from}&sortBy=publishedAt&language=en&apiKey={api_key}'
+            response = requests.get(general_url)
+            news_data = response.json()
+        
+        if news_data.get('status') == 'ok':
+            articles = news_data.get('articles', [])[:6]  # Limit to 5 articles
+            
+            # Process the dates
+            for article in articles:
+                article['publishedAt'] = datetime.strptime(
+                    article['publishedAt'], 
+                    '%Y-%m-%dT%H:%M:%SZ'
+                )
+            
+            return render_template('newspage.html', articles=articles, city=city)
+        else:
+            return render_template('newspage.html', error='Unable to fetch news at this time.', city=city)
+            
+    except Exception as e:
+        return render_template('newspage.html', error=str(e), city=city)
 
 @app.route('/aboutus')
 def aboutus():

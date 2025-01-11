@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'bootstrap.html' %}
+    <title>News - WeatherToday</title>
+    <style>
+        .news-card {
+            transition: transform 0.2s;
+            height: 100%;
+        }
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+        .news-image {
+            height: 200px;
+            object-fit: cover;
+        }
+        .news-description {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .news-date {
+            font-size: 0.85rem;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    
+    <div class="container mt-3">
+        {% include 'banner.html' %}
+    </div>
+
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">
+            {% if city %}
+                News for {{ city }}
+            {% else %}
+                Latest News
+            {% endif %}
+        </h2>
+
+        {% if error %}
+            <div class="alert alert-danger text-center">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <div class="row g-4">
+            {% if articles %}
+                {% for article in articles %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card news-card shadow-sm h-100">
+                            {% if article.urlToImage %}
+                                <img src="{{ article.urlToImage }}" class="card-img-top news-image" alt="News Image">
+                            {% endif %}
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">{{ article.title }}</h5>
+                                <p class="card-text news-description">{{ article.description }}</p>
+                                <p class="news-date mt-2">
+                                    {{ article.publishedAt.strftime('%B %d, %Y %I:%M %p') }}
+                                </p>
+                                <a href="{{ article.url }}" class="btn btn-primary mt-auto" target="_blank">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12">
+                    <p class="text-center">No news articles found.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% include 'contactus.html' %}
+    {% include 'footer.html' %}
+</body>
+</html>

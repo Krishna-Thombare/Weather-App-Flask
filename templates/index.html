@@ -71,29 +71,40 @@
 
     <div class="container mt-4">
         <!-- Search Form -->
-        <div style="max-width: 400px; margin: 0 auto;">
-            <div class="position-relative">  
-                <div class="d-flex justify-content-center">  
-                    <input type="text" name="city" 
+        <div style="max-width: 500px; margin: 0 auto;">
+            <!-- Main Search Container -->
+            <div class="d-flex flex-column gap-3">
+                <!-- Search Box -->
+                <div class="d-flex justify-content-center">
+                    <input type="text" 
+                        name="city" 
                         form="searchForm"
                         placeholder="Enter city name" 
                         class="form-control"
                         required
-                        style="width: 300px; padding: 8px; border: 1px solid #858585; border-radius: 4px;">
+                        style="width: 100%; padding: 8px; border: 1px solid #858585; border-radius: 4px;">
                 </div>
-                {% if current_user.is_authenticated and data and not data.error %}
-                    <a href="{{ url_for('save_city', city_name=data.city_name) }}" 
-                        class="btn btn-danger position-absolute mt-0"
-                        style="top: 0; right: -47px;">Add City</a>  
-                {% endif %}
-                <div class="text-center mt-3">  
+                
+                <!-- Buttons Row -->
+                <div class="d-flex justify-content-center gap-3">
+                    <!-- See News Button -->
+                    <a href="{{ url_for('news') }}{% if data and not data.error %}?city={{ data.city_name }}{% endif %}" 
+                    class="btn btn-info">See News</a>
+                    
+                    <!-- Search Button -->
                     <form id="searchForm" method="POST" class="mb-0">
                         <button type="submit" class="btn btn-primary">Search</button>
                     </form>
+                    
+                    <!-- Add City Button (if authenticated) -->
+                    {% if current_user.is_authenticated and data and not data.error %}
+                        <a href="{{ url_for('save_city', city_name=data.city_name) }}" 
+                        class="btn btn-danger">Add City</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
-
+        
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages() %}
             {% if messages %}
