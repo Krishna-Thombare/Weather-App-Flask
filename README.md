@@ -37,3 +37,8 @@ https://weathertoday-0lis.onrender.com/
 
 ## 🤝 **Contributing:**
 Contributions are welcome! Feel free to fork the repository and submit a pull request.
+
+## 📬 **Contact:**
+Krishnathombare43@gmail.com
+
+⭐**~ If you found this project useful, consider starring the repository!**
