@@ -2,73 +2,14 @@
 <html lang="en">
 <head>
     {% include 'bootstrap.html' %}
+    <link rel="stylesheet"href="{{ url_for('static', filename='css/home.css') }}">
     <title>WeatherToday</title>
-    <style>
-        .weather-gradient {
-            background: linear-gradient(135deg, #e6f2ff 0%, #b3d9ff 100%);
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .flash-message {
-            width: 80%;
-            max-width: 600px;
-            margin: 1rem auto;
-            padding: 0.75rem;
-            border-radius: 4px;
-            font-size: 0.9rem;
-        }
-
-        .weather-container {
-            display: grid;
-            grid-template-areas: 
-                "center"
-                "left"
-                "right";
-            gap: 2rem;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
-        .widget-container {
-            grid-area: left;
-            padding: 1rem;
-        }
-
-        .weather-info-box {
-            grid-area: center;
-            background: linear-gradient(135deg, #e6f2ff 0%, #b3d9ff 100%);
-            padding: 1rem;
-        }
-
-        .saved-cities {
-            grid-area: right;
-            padding: 1rem;
-        }
-
-        @media (min-width: 768px) {
-            .weather-container {
-                grid-template-areas: 
-                    "left center right";
-                grid-template-columns: 300px minmax(auto, 800px) 300px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .weather-container > div {
-                flex: 1 1 auto;
-            }
-        }
-    </style>
 </head>
 
 <body>
     {% include 'navbar.html' %}
+    {% include 'banner.html' %}
     
-    <div class="container mt-3">
-        {% include 'banner.html' %}
-    </div>
-
     <div class="container mt-4">
         <!-- Search Form -->
         <div style="max-width: 500px; margin: 0 auto;">
@@ -175,7 +116,7 @@
 
                 <!-- Left Column: Weather Widget -->
                 <div class="widget-container">
-                    <h4 class="text-center mb-3">Your City</h4>
+                    <h4 class="text-center mb-3 mt-3">Your City</h4>
                     {% include 'widget.html' %}
                 </div>
 
