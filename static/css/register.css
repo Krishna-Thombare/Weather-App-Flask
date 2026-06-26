@@ -1,0 +1,17 @@
+body {
+    background: rgb(22, 31, 37);
+    min-height: 100vh;
+    color: #f8fafc;
+}
+
+.navbar-brand {
+    color: white;
+}
+
+.navbar-brand:hover {
+    color: rgb(255, 255, 255);
+}
+
+.card-header {
+    background: rgb(0, 102, 255);
+}
