@@ -2,29 +2,8 @@
 <html lang="en">
 <head>
     {% include 'bootstrap.html' %}
+    <link rel="stylesheet"href="{{ url_for('static', filename='css/news.css') }}">
     <title>News - WeatherToday</title>
-    <style>
-        .news-card {
-            transition: transform 0.2s;
-            height: 100%;
-        }
-        .news-card:hover {
-            transform: translateY(-5px);
-        }
-        .news-image {
-            height: 200px;
-            object-fit: cover;
-        }
-        .news-description {
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        .news-date {
-            font-size: 0.85rem;
-            color: #666;
-        }
-    </style>
 </head>
 
 <body>
