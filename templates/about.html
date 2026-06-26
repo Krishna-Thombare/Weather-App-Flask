@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     {% include 'bootstrap.html' %}
+    <link rel="stylesheet"href="{{ url_for('static', filename='css/about.css') }}">
     <title>About</title>
   </head>
 
@@ -9,12 +10,12 @@
 
     {% include 'navbar.html' %}
 
-    <div class="container mt-3">
-        {% include 'banner.html' %}
-    </div>
+   
+    {% include 'banner.html' %}
+    
 
     <div class="container mt-2">
-      <h3 class="text-center">About Us</h3>
+      <h3 class="text-center text-white">About Us</h3>
 
       <p class="text-center">
         Welcome to WeatherToday, your reliable source for up-to-date and
@@ -24,7 +25,7 @@
         world.
       </p>
 
-      <h3 class="text-center">Who We Are</h3>
+      <h3 class="text-center text-white">Who We Are</h3>
       <p class="text-center">
         At WeatherToday, we are passionate about making weather information
         accessible to everyone. <br />
@@ -35,7 +36,7 @@
         visibility.
       </p>
 
-      <h3 class="text-center">Our Technology</h3>
+      <h3 class="text-center text-white">What We use</h3>
       <p class="text-center">
         We use the power of OpenWeather API to provide accurate and reliable
         weather data. OpenWeather collects data from multiple sources, including
