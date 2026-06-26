@@ -85,8 +85,15 @@ body {
 }
 
 @media (max-width: 768px) {
-    .weather-container > div {
-        flex: 1 1 auto;
+    .weather-container {
+        justify-items: center;
+    }
+
+    .widget-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 }
 
