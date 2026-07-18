@@ -1,5 +1,5 @@
 ## 📌**Overview:**
-Weather App is a simple and interactive web application that allows users to get real-time weather information for any city. The app fetches live weather data using an external API and displays key details like temperature, humidity, and weather conditions in a clean and user-friendly interface. Additionally, users can view news related to the searched city or browse the latest news, with data fetched from an external news API.
+Weather App is a simple and interactive web application that allows users to get real-time weather information for any city. The app fetches live weather data using an external API and displays key details like temperature, humidity, and weather conditions in a clean and user-friendly interface. Additionally, users can view news related to the searched city or browse the latest news, with data fetched from News API.
 
 ## ✨ **Features:**
 1. Search weather by city name.
