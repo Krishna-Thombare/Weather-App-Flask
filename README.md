@@ -3,7 +3,7 @@ Weather App is a simple and interactive web application that allows users to get
 
 ## ✨ **Features:**
 1. Search weather by city name.
-2. Displays real-time weather info with details like temperature, humidity, wind speed etc. (OpenWeather API).
+2. Displays real-time weather info with details like temperature, humidity, wind speed etc.
 3. Displays news related to the searched city or lets users browse the latest news.
 4. Dynamic data fetching using external APIs.
 5. User Registration and Authentication.
