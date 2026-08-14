@@ -19,7 +19,7 @@ Weather App is a simple and interactive web application that allows users to get
 ## 🧠 **Architecture:**
 1. Designed using Flask Blueprints for modular structure.
 2. REST API-based request handling.
-3. Uses SQLAlchemy ORM for database management.
+3. Uses SQLAlchemy for database management.
 4. Template rendering using Jinja2.
 5. Clean separation of frontend and backend logic.
 
